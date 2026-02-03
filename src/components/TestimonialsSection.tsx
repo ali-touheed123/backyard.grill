@@ -19,7 +19,7 @@ const testimonials = [
     role: 'Food Blogger',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
     rating: 5,
-    text: 'Table to Door has set a new standard for Pakistani cuisine. Their Mutton Karahi is absolutely divine!',
+    text: 'Backyard Grill has set a new standard for Pakistani cuisine. Their Mutton Karahi is absolutely divine!',
     order: 'Mutton Karahi',
   },
   {
@@ -180,11 +180,10 @@ export function TestimonialsSection() {
                     setDirection(index > activeIndex ? 1 : -1);
                     setActiveIndex(index);
                   }}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
-                    index === activeIndex
+                  className={`w-2.5 h-2.5 rounded-full transition-all ${index === activeIndex
                       ? 'bg-primary w-8'
                       : 'bg-muted hover:bg-muted-foreground/30'
-                  }`}
+                    }`}
                 />
               ))}
             </div>

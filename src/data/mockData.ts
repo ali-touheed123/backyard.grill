@@ -2,14 +2,14 @@ import type { MenuItem, MenuCategory, Restaurant } from '@/types/menu';
 
 export const restaurant: Restaurant = {
   id: '1',
-  name: 'Table to Door',
-  slug: 'table-to-door',
+  name: 'Backyard Grill',
+  slug: 'backyard-grill',
   description: 'Authentic Pakistani cuisine delivered fresh to your doorstep. Experience the rich flavors of traditional recipes made with love.',
   logo: '/logo.png',
   banner: '/banner.jpg',
   phone: '+92 300 1234567',
   whatsapp: '+92 300 1234567',
-  email: 'hello@tabletodoor.pk',
+  email: 'hello@backyardgrill.pk',
   address: 'F-7 Markaz, Islamabad, Pakistan',
   rating: 4.8,
   totalReviews: 2547,

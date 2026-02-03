@@ -1,3 +1,4 @@
+```
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Menu, Search, Phone, Star } from 'lucide-react';
@@ -43,7 +44,7 @@ export function Header({
           </motion.div>
           <div className="hidden sm:block">
             <h1 className="font-heading font-bold text-lg text-foreground leading-none">
-              Table to Door
+            Backyard Grill
             </h1>
             <div className="flex items-center gap-1 mt-0.5">
               <Star className="w-3 h-3 fill-warning text-warning" />
@@ -174,3 +175,4 @@ export function Header({
     </motion.header>
   );
 }
+```

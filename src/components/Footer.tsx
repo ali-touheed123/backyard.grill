@@ -70,7 +70,7 @@ export function Footer({ onMenuClick }: FooterProps) {
                 <span className="text-2xl">🍽️</span>
               </div>
               <div>
-                <h3 className="font-heading font-bold text-xl">Table to Door</h3>
+                <h3 className="font-heading font-bold text-xl">Backyard Grill</h3>
                 <p className="text-xs text-primary-foreground/60">Authentic Pakistani Cuisine</p>
               </div>
             </div>
@@ -160,7 +160,7 @@ export function Footer({ onMenuClick }: FooterProps) {
               <a href="mailto:hello@tabletodoor.pk" className="flex items-start gap-3 text-primary-foreground/70 hover:text-primary transition-colors">
                 <Mail className="w-5 h-5 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-primary-foreground">hello@tabletodoor.pk</p>
+                  <p className="font-semibold text-primary-foreground">hello@backyardgrill.pk</p>
                   <p className="text-xs">Email us anytime</p>
                 </div>
               </a>
@@ -179,7 +179,7 @@ export function Footer({ onMenuClick }: FooterProps) {
       {/* Bottom Bar */}
       <div className="border-t border-primary-foreground/10">
         <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/60">
-          <p>© 2024 Table to Door. All rights reserved.</p>
+          <p>© 2024 Backyard Grill. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-primary-foreground transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-primary-foreground transition-colors">Terms of Service</a>

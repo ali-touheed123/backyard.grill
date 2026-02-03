@@ -102,7 +102,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                 </div>
                                 <div>
                                     <h3 className="font-heading text-xl font-bold">Order Summary</h3>
-                                    <p className="text-sm text-muted-foreground">{items.length} items from Table to Door</p>
+                                    <p className="text-sm text-muted-foreground">{items.length} items from Backyard Grill</p>
                                 </div>
                             </div>
 
@@ -273,7 +273,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                                 <div>
                                                     <h3 className="text-3xl font-bold mb-2">Order Confirmed!</h3>
                                                     <p className="text-muted-foreground max-w-md mx-auto">
-                                                        Thank you {formData.firstName}! your order #TTD-{Math.floor(1000 + Math.random() * 9000)} has been received and is being prepared for delivery to {formData.address}.
+                                                        Thank you {formData.firstName}! your order #BG-{Math.floor(1000 + Math.random() * 9000)} has been received and is being prepared for delivery to {formData.address}.
                                                     </p>
                                                 </div>
                                                 <Button

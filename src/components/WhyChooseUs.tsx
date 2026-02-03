@@ -73,7 +73,7 @@ export function WhyChooseUs() {
           className="text-center mb-12"
         >
           <span className="inline-block text-primary font-semibold text-sm uppercase tracking-wider mb-2">
-            Why Table to Door
+            Why Backyard Grill
           </span>
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
             The Best Choice for Pakistani Food
