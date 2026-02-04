@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { SearchSuggestions } from './SearchSuggestions';
+import type { MenuItem } from '@/types/menu';
 
 interface SearchOverlayProps {
     isOpen: boolean;
@@ -8,6 +10,8 @@ interface SearchOverlayProps {
     query: string;
     onQueryChange: (query: string) => void;
     onSearch: () => void;
+    searchResults?: MenuItem[];
+    onItemClick?: (item: MenuItem) => void;
 }
 
 const trendingSearches = ['Chicken Biryani', 'Mutton Karahi', 'Seekh Kabab', 'Gulab Jamun'];
@@ -18,6 +22,8 @@ export function SearchOverlay({
     query,
     onQueryChange,
     onSearch,
+    searchResults = [],
+    onItemClick = () => { },
 }: SearchOverlayProps) {
     return (
         <AnimatePresence>
@@ -52,36 +58,42 @@ export function SearchOverlay({
                             </Button>
                         </div>
 
-                        <div className="space-y-6">
-                            <div>
-                                <div className="flex items-center gap-2 text-muted-foreground mb-4">
-                                    <TrendingUp className="w-4 h-4" />
-                                    <span className="text-sm font-semibold uppercase tracking-wider">Trending Searches</span>
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    {trendingSearches.map((term) => (
-                                        <button
-                                            key={term}
-                                            onClick={() => {
-                                                onQueryChange(term);
-                                                onSearch();
-                                            }}
-                                            className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground transition-all text-sm font-medium"
-                                        >
-                                            {term}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
 
-                            {query && (
-                                <div className="pt-4">
-                                    <Button
-                                        className="w-full h-14 rounded-2xl text-lg shadow-glow"
-                                        onClick={onSearch}
-                                    >
-                                        Search for "{query}"
-                                    </Button>
+                        <div className="space-y-6">
+                            {query ? (
+                                <div className="space-y-4">
+                                    <SearchSuggestions
+                                        suggestions={searchResults}
+                                        onItemClick={onItemClick}
+                                        isVisible={true}
+                                        className="relative top-0 border-none shadow-none bg-transparent"
+                                    />
+                                    {searchResults.length === 0 && (
+                                        <div className="text-center text-muted-foreground py-8">
+                                            No items found for "{query}"
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                                        <TrendingUp className="w-4 h-4" />
+                                        <span className="text-sm font-semibold uppercase tracking-wider">Trending Searches</span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {trendingSearches.map((term) => (
+                                            <button
+                                                key={term}
+                                                onClick={() => {
+                                                    onQueryChange(term);
+                                                    onSearch();
+                                                }}
+                                                className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground transition-all text-sm font-medium"
+                                            >
+                                                {term}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                         </div>

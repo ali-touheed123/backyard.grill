@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Menu, Search, Phone, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/cartStore';
+import { SearchSuggestions } from './SearchSuggestions';
+import type { MenuItem } from '@/types/menu';
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -10,6 +12,8 @@ interface HeaderProps {
   onSearchChange?: (query: string) => void;
   onOrderNowClick?: () => void;
   onSearchClick?: () => void;
+  searchResults?: MenuItem[];
+  onItemClick?: (item: MenuItem) => void;
 }
 
 export function Header({
@@ -17,7 +21,9 @@ export function Header({
   searchQuery = '',
   onSearchChange,
   onOrderNowClick,
-  onSearchClick
+  onSearchClick,
+  searchResults = [],
+  onItemClick = () => { },
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const itemCount = useCartStore((state) => state.getItemCount());
@@ -62,6 +68,11 @@ export function Header({
               value={searchQuery}
               onChange={(e) => onSearchChange?.(e.target.value)}
               className="w-full h-11 pl-11 pr-4 rounded-xl bg-muted/50 border border-transparent focus:border-primary/30 focus:bg-background focus:ring-2 focus:ring-primary/10 focus:outline-none text-sm transition-all"
+            />
+            <SearchSuggestions
+              suggestions={searchResults}
+              onItemClick={onItemClick}
+              isVisible={!!searchQuery && searchResults.length > 0}
             />
           </div>
         </div>

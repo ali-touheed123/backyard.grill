@@ -56,9 +56,27 @@ const Index = () => {
     return items.filter((item) => item.categoryId === activeCategory);
   }, [activeCategory, searchQuery]);
 
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+
+    const query = searchQuery.toLowerCase().trim();
+    return menuItems.filter(item =>
+      item.name.toLowerCase().includes(query) ||
+      item.description.toLowerCase().includes(query) ||
+      (item.nameUrdu && item.nameUrdu.includes(query))
+    );
+  }, [searchQuery]);
+
   const handleItemClick = (item: MenuItem) => {
     setSelectedItem(item);
     setIsItemModalOpen(true);
+  };
+
+  const handleSearchItemClick = (item: MenuItem) => {
+    setSelectedItem(item);
+    setIsItemModalOpen(true);
+    setIsSearchOverlayOpen(false);
+    setSearchQuery('');
   };
 
   const handleQuickAdd = (item: MenuItem) => {
@@ -77,13 +95,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      {/* Header */}
       <Header
         onCartClick={() => setIsCartOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onOrderNowClick={scrollToMenu}
         onSearchClick={() => setIsSearchOverlayOpen(true)}
+        searchResults={searchResults}
+        onItemClick={handleSearchItemClick}
       />
 
       {/* Hero */}
@@ -218,6 +237,8 @@ const Index = () => {
           setIsSearchOverlayOpen(false);
           scrollToMenu();
         }}
+        searchResults={searchResults}
+        onItemClick={handleSearchItemClick}
       />
     </div>
   );
