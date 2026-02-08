@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Star, Clock, MapPin, Phone, Sparkles, TrendingUp, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-food.jpg';
 
 
 
@@ -22,12 +21,12 @@ export function HeroSection({ onOrderNowClick }: HeroSectionProps) {
         className="absolute inset-0 z-0"
       >
         <img
-          src={heroImage}
-          alt="Delicious Pakistani cuisine"
+          src="/menu/hero-main.png"
+          alt="Backyard Grill Signature Items"
           className="w-full h-[110%] object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/80 to-foreground/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
       </motion.div>
 
 
