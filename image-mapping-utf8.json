@@ -1,0 +1,84 @@
+﻿Processed: Apple Malt -> apple-malt.png
+Processed: Beast Deal 1.png -> beast-deal-1.png
+Processed: Beast Deal 2.jpg -> beast-deal-2.jpg
+Processed: Beast Deal 3.jpg -> beast-deal-3.jpg
+Processed: Beef Wrap (Regular).png -> beef-wrap-regular.png
+Processed: BYG Beast.jpg -> byg-beast.jpg
+Processed: BYG Sauce -> byg-sauce.jpg
+Processed: BYG Zynger.jpg -> byg-zynger.jpg
+Processed: Chicken Hotshots -> chicken-hotshots.jpg
+Processed: Chicken Supreme.jpg -> chicken-supreme.jpg
+Processed: Chicken Wrap (Regular) -> chicken-wrap-regular.jpg
+Processed: Chicken Wrap Supreme -> chicken-wrap-supreme.jpg
+Processed: Classic Chicken.jpg -> classic-chicken.jpg
+Processed: Classic Fries.jpg -> classic-fries.jpg
+Processed: Cola Next -> cola-next.jpg
+Processed: Crispy Magic Jr..jpg -> crispy-magic-jr.jpg
+Processed: Curly Fries.png -> curly-fries.png
+Processed: Daily Deal 1.jpg -> daily-deal-1.jpg
+Processed: Daily Deal 2.jpg -> daily-deal-2.jpg
+Processed: Daily Deal 3.jpg -> daily-deal-3.jpg
+Processed: Daily Deal 4.jpg -> daily-deal-4.jpg
+Processed: Daily Deal 5.jpg -> daily-deal-5.jpg
+Processed: Daily Deal 6.jpg -> daily-deal-6.jpg
+Processed: Extra Cheese Slice.jpeg -> extra-cheese-slice.jpeg
+Processed: Fizup Next -> fizup-next.jpg
+Processed: Loaded Fries -> loaded-fries.jpg
+Processed: Magic Mushroom.jpg -> magic-mushroom.jpg
+Processed: Magic Sauce -> magic-sauce.jpg
+Processed: Make It a Meal.jpg -> make-it-a-meal.jpg
+Processed: Make it Extreme (Patty+Cheese).jpg -> make-it-extreme-pattycheese.jpg
+Processed: Mayo Garlic Sauce -> mayo-garlic-sauce.jpg
+Processed: Mushroom Royale -> mushroom-royale.jpg
+Processed: Mustard Sauce -> mustard-sauce.jpg
+Processed: Onion Rings -> onion-rings.jpg
+Processed: Pakola -> pakola.png
+Processed: Peach Malt -> peach-malt.png
+Processed: The Big Bang.png -> the-big-bang.png
+Processed: Vintage Beef.jpg -> vintage-beef.jpg
+Processed: Vintage Double.jpg -> vintage-double.jpg
+Processed: Water -> water.png
+--- MAPPING START ---
+{
+    "Pakola":  "/menu/pakola.png",
+    "Mustard Sauce":  "/menu/mustard-sauce.jpg",
+    "Beast Deal 3":  "/menu/beast-deal-3.jpg",
+    "Apple Malt":  "/menu/apple-malt.png",
+    "Vintage Double":  "/menu/vintage-double.jpg",
+    "Daily Deal 2":  "/menu/daily-deal-2.jpg",
+    "Chicken Supreme":  "/menu/chicken-supreme.jpg",
+    "Fizup Next":  "/menu/fizup-next.jpg",
+    "Daily Deal 1":  "/menu/daily-deal-1.jpg",
+    "Classic Fries":  "/menu/classic-fries.jpg",
+    "BYG Beast":  "/menu/byg-beast.jpg",
+    "Make It a Meal":  "/menu/make-it-a-meal.jpg",
+    "Water":  "/menu/water.png",
+    "Curly Fries":  "/menu/curly-fries.png",
+    "Peach Malt":  "/menu/peach-malt.png",
+    "Daily Deal 6":  "/menu/daily-deal-6.jpg",
+    "BYG Zynger":  "/menu/byg-zynger.jpg",
+    "Classic Chicken":  "/menu/classic-chicken.jpg",
+    "Magic Mushroom":  "/menu/magic-mushroom.jpg",
+    "Daily Deal 5":  "/menu/daily-deal-5.jpg",
+    "The Big Bang":  "/menu/the-big-bang.png",
+    "Vintage Beef":  "/menu/vintage-beef.jpg",
+    "Chicken Wrap Supreme":  "/menu/chicken-wrap-supreme.jpg",
+    "Mushroom Royale":  "/menu/mushroom-royale.jpg",
+    "Magic Sauce":  "/menu/magic-sauce.jpg",
+    "Chicken Wrap (Regular)":  "/menu/chicken-wrap-regular.jpg",
+    "BYG Sauce":  "/menu/byg-sauce.jpg",
+    "Chicken Hotshots":  "/menu/chicken-hotshots.jpg",
+    "Make it Extreme (Patty+Cheese)":  "/menu/make-it-extreme-pattycheese.jpg",
+    "Mayo Garlic Sauce":  "/menu/mayo-garlic-sauce.jpg",
+    "Beef Wrap (Regular)":  "/menu/beef-wrap-regular.png",
+    "Cola Next":  "/menu/cola-next.jpg",
+    "Daily Deal 3":  "/menu/daily-deal-3.jpg",
+    "Daily Deal 4":  "/menu/daily-deal-4.jpg",
+    "Beast Deal 1":  "/menu/beast-deal-1.png",
+    "Onion Rings":  "/menu/onion-rings.jpg",
+    "Crispy Magic Jr.":  "/menu/crispy-magic-jr.jpg",
+    "Extra Cheese Slice":  "/menu/extra-cheese-slice.jpeg",
+    "Loaded Fries":  "/menu/loaded-fries.jpg",
+    "Beast Deal 2":  "/menu/beast-deal-2.jpg"
+}
+--- MAPPING END ---
