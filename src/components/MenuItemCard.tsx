@@ -30,7 +30,7 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
         <motion.img
           src={item.image}
           alt={item.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain p-4 transition-transform duration-500"
           loading="lazy"
           whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.6 }}
