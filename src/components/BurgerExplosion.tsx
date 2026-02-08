@@ -100,11 +100,12 @@ export const BurgerExplosion = () => {
             const canvasWidth = canvas.width;
             const canvasHeight = canvas.height;
 
-            // "COVER" scaling logic: Crop empty space so the burger fills the viewport
-            // We scale based on WIDTH primarily to ensure it's large, but Max ensures we fill everything
-            const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height);
+            // "COVER" scaling logic with extra vertical zoom to crop "blackish" bars
+            // We multiply by an extra factor to ensure the top/bottom empty space is pushed out
+            const verticalZoom = 1.35;
+            const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height) * verticalZoom;
 
-            // Center the image while scaled up (this naturally crops the edges/top/bottom)
+            // Center the image while scaled up
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
             const y = (canvasHeight / 2) - (img.height / 2) * scale;
 
@@ -129,16 +130,11 @@ export const BurgerExplosion = () => {
     }, [images, isLoading, frameIndex]);
 
     return (
-        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none">
+        <div ref={containerRef} className="relative h-[200vh] md:h-[300vh] w-full z-0 pointer-events-none mb-[-50vh] mt-[-20vh]">
             {/* 
-                We use z-0 to push it behind other content if needed, 
-                and no margins to make it feel like a fixed background.
+                We use a smaller height for the sticky view to make it "small"
             */}
-            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-background">
-                {/* 
-                    Full viewport container for the canvas to allow it to 
-                    "stick" properly without boundaries.
-                */}
+            <div className="sticky top-[20vh] h-[60vh] w-full flex items-center justify-center overflow-hidden rounded-[3rem] mx-auto max-w-5xl shadow-2xl bg-background border border-border/50">
                 <div className="relative w-full h-full flex items-center justify-center">
                     {!isLoading ? (
                         <motion.canvas
