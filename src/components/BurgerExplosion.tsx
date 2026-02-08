@@ -103,16 +103,16 @@ export const BurgerExplosion = () => {
             const canvasWidth = canvas.width;
             const canvasHeight = canvas.height;
 
-            // "COVER" scaling logic with extra vertical zoom to crop "blackish" bars
-            // Balanced zoom at 1.28: enough to hide black lines, but small enough to see the whole burger
-            const verticalZoom = 1.28;
+            // Balanced scaling: We use a factor of 1.0 (no extra zoom) 
+            // since mixBlendMode handles the black background removal.
+            const verticalZoom = 1.0;
             const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height) * verticalZoom;
 
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
             const y = (canvasHeight / 2) - (img.height / 2) * scale;
 
             ctx.save();
-            // Using 'screen' to knock out the black background
+            // Blending handles the transparency without needing to crop edges aggressively
             ctx.globalCompositeOperation = 'screen';
             ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
             ctx.restore();
@@ -136,22 +136,21 @@ export const BurgerExplosion = () => {
     }, [images, isLoading, frameIndex]);
 
     return (
-        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-20vh] mt-[-10vh]">
+        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-10vh]">
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
                 {/* 
-                    Constrain the inner container to make the burger appearance "small" 
-                    as requested, while maintaining the background-stick feel.
+                    We increase the height to h-[70vh] to give the explosion more room 
+                    and remove the 'max-w-lg' to ensure ingredients don't hit the sides.
                 */}
-                <div className="relative w-full max-w-lg md:max-w-xl h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
+                <div className="relative w-full max-w-2xl h-[70vh] flex items-center justify-center overflow-hidden">
                     {!isLoading ? (
                         <motion.canvas
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1 }}
                             ref={canvasRef}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                             style={{
-                                // Blend mode on the element for extra punch in removing blackish artifacts
                                 mixBlendMode: 'screen',
                                 filter: 'contrast(1.05)'
                             }}
