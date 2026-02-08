@@ -19,98 +19,70 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ y: -8 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group bg-card rounded-3xl overflow-hidden shadow-card hover:shadow-hero transition-all duration-500 cursor-pointer border border-transparent hover:border-primary/20"
+      className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100"
       onClick={() => onItemClick(item)}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-square overflow-hidden bg-[#F8FAFC]">
         <motion.img
           src={item.image}
           alt={item.name}
-          className="w-full h-full object-cover transition-transform duration-500"
+          className="w-full h-full object-cover"
           loading="lazy"
-          whileHover={{ scale: 1.1 }}
-          transition={{ duration: 0.6 }}
         />
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Gradient Overlay (Fade to white at bottom) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-100" />
 
         {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-          {item.isFeatured && (
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="bg-primary text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg"
-            >
-              <Zap className="w-3 h-3 fill-current" />
-              Popular
-            </motion.span>
-          )}
-          {item.isSpicy && (
-            <span className="bg-destructive text-destructive-foreground text-xs font-medium w-7 h-7 rounded-full flex items-center justify-center shadow-lg">
-              <Flame className="w-4 h-4" />
-            </span>
-          )}
-          {item.isVegetarian && (
-            <span className="bg-success text-success-foreground text-xs font-medium w-7 h-7 rounded-full flex items-center justify-center shadow-lg">
-              <Leaf className="w-4 h-4" />
-            </span>
+        <div className="absolute top-4 left-4">
+          {(item.isVegetarian || item.categoryId === 'drinks') && (
+            <div className="bg-[#10B981] w-10 h-10 rounded-full flex items-center justify-center shadow-sm">
+              <Leaf className="w-5 h-5 text-white fill-current" />
+            </div>
           )}
         </div>
 
         {/* Rating Badge */}
-        <div className="absolute top-3 right-3 bg-foreground/80 backdrop-blur-sm text-primary-foreground text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1">
-          <Star className="w-3 h-3 fill-warning text-warning" />
+        <div className="absolute top-4 right-4 bg-[#1F2937]/90 backdrop-blur-sm text-white text-sm font-bold px-3 py-1.5 rounded-2xl flex items-center gap-1.5">
+          <Star className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
           4.8
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-5">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <h3 className="font-heading font-bold text-lg text-foreground leading-tight group-hover:text-primary transition-colors">
+      <div className="p-6 pt-2">
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="font-heading font-bold text-xl text-[#FF6B35]">
             {item.name}
           </h3>
-          <span className="font-heading font-bold text-primary whitespace-nowrap text-lg group-hover:text-foreground transition-colors">
-            {formatPrice(item.price)}
+          <span className="font-heading font-bold text-black text-xl">
+            Rs {item.price}
           </span>
         </div>
 
-        {item.nameUrdu && (
-          <p className="text-sm text-primary/70 font-medium mb-2" dir="rtl">
-            {item.nameUrdu}
-          </p>
-        )}
-
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-4 leading-relaxed">
+        <p className="text-base text-[#64748B] mb-6 line-clamp-1">
           {item.description}
         </p>
 
-        <div className="flex items-center justify-between pt-3 border-t border-border/50">
-          <div className="flex items-center gap-1.5 text-muted-foreground">
-            <Clock className="w-4 h-4" />
-            <span className="text-sm font-medium">{item.prepTime} min</span>
+        <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-[#64748B]">
+            <Clock className="w-5 h-5" />
+            <span className="text-base font-medium">{item.prepTime} min</span>
           </div>
 
-
-          {/* Mini Add Button */}
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-8 text-xs font-semibold text-primary hover:bg-primary/10"
+          <button
             onClick={(e) => {
               e.stopPropagation();
               onAddToCart(item);
             }}
+            className="flex items-center gap-1 text-[#FF6B35] font-bold text-lg hover:opacity-80 transition-opacity"
           >
-            <Plus className="w-3 h-3 mr-1" />
+            <Plus className="w-5 h-5" />
             Add
-          </Button>
+          </button>
         </div>
       </div>
     </motion.div>
