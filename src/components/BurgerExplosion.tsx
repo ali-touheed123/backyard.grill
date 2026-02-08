@@ -97,12 +97,14 @@ export const BurgerExplosion = () => {
         if (img && img.width > 0) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const dpr = window.devicePixelRatio || 1;
             const canvasWidth = canvas.width;
             const canvasHeight = canvas.height;
 
-            // Calculate scale to contain image in canvas
-            const scale = Math.min(canvasWidth / img.width, canvasHeight / img.height);
+            // "COVER" scaling logic: Crop empty space so the burger fills the viewport
+            // We scale based on WIDTH primarily to ensure it's large, but Max ensures we fill everything
+            const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height);
+
+            // Center the image while scaled up (this naturally crops the edges/top/bottom)
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
             const y = (canvasHeight / 2) - (img.height / 2) * scale;
 
@@ -127,29 +129,28 @@ export const BurgerExplosion = () => {
     }, [images, isLoading, frameIndex]);
 
     return (
-        <div ref={containerRef} className="relative h-[250vh] md:h-[350vh] w-full z-10 my-[-50vh] pointer-events-none">
+        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none">
             {/* 
-                We use negative margin to allow the content to overlap slightly 
-                and make the transition feel less "boxed". 
+                We use z-0 to push it behind other content if needed, 
+                and no margins to make it feel like a fixed background.
             */}
-            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-                <div className="relative w-full max-w-4xl px-4 flex items-center justify-center">
+            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-background">
+                {/* 
+                    Full viewport container for the canvas to allow it to 
+                    "stick" properly without boundaries.
+                */}
+                <div className="relative w-full h-full flex items-center justify-center">
                     {!isLoading ? (
                         <motion.canvas
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={{ opacity: 0, scale: 1.1 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1, ease: "easeOut" }}
+                            transition={{ duration: 1.5, ease: "easeOut" }}
                             ref={canvasRef}
-                            className="w-full aspect-square object-contain drop-shadow-2xl"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                maxWidth: '1000px'
-                            }}
+                            className="w-full h-full object-cover"
                         />
                     ) : (
                         <div className="flex flex-col items-center gap-6">
-                            <div className="relative w-20 h-20">
+                            <div className="relative w-24 h-24">
                                 <div className="absolute inset-0 border-4 border-primary/10 rounded-full" />
                                 <motion.div
                                     className="absolute inset-0 border-4 border-t-primary rounded-full"
@@ -158,7 +159,7 @@ export const BurgerExplosion = () => {
                                 />
                             </div>
                             <div className="text-center">
-                                <p className="text-lg font-bold text-foreground">Assembling Freshness</p>
+                                <p className="text-xl font-bold text-foreground">Assembling Freshness</p>
                                 <p className="text-sm text-muted-foreground">{loadProgress}%</p>
                             </div>
                         </div>
