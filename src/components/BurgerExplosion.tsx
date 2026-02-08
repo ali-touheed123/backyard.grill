@@ -104,8 +104,8 @@ export const BurgerExplosion = () => {
             const canvasHeight = canvas.height;
 
             // "COVER" scaling logic with extra vertical zoom to crop "blackish" bars
-            // and ensure the burger is large and centered.
-            const verticalZoom = 1.4;
+            // Adjusted zoom from 1.4 down to 1.1 to ensure the burger isn't cut off
+            const verticalZoom = 1.1;
             const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height) * verticalZoom;
 
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
