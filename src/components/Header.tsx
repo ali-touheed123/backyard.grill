@@ -72,7 +72,7 @@ export function Header({
             <SearchSuggestions
               suggestions={searchResults}
               onItemClick={onItemClick}
-              isVisible={!!searchQuery && searchResults.length > 0}
+              isVisible={!!searchQuery}
             />
           </div>
         </div>

@@ -25,7 +25,7 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
 const Index = () => {
-  const [activeCategory, setActiveCategory] = useState('popular');
+  const [activeCategory, setActiveCategory] = useState('new-on-menu');
   const [activeTab, setActiveTab] = useState('home');
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
@@ -44,15 +44,11 @@ const Index = () => {
       const query = searchQuery.toLowerCase().trim();
       items = items.filter(item =>
         item.name.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query) ||
         (item.nameUrdu && item.nameUrdu.includes(query))
       );
     }
 
     // Then apply category filter
-    if (activeCategory === 'popular') {
-      return items.filter((item) => item.isFeatured);
-    }
     return items.filter((item) => item.categoryId === activeCategory);
   }, [activeCategory, searchQuery]);
 
@@ -62,7 +58,6 @@ const Index = () => {
     const query = searchQuery.toLowerCase().trim();
     return menuItems.filter(item =>
       item.name.toLowerCase().includes(query) ||
-      item.description.toLowerCase().includes(query) ||
       (item.nameUrdu && item.nameUrdu.includes(query))
     );
   }, [searchQuery]);
