@@ -33,8 +33,8 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
           loading="lazy"
         />
 
-        {/* Gradient Overlay (Fade to white at bottom) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-100" />
+        {/* Gradient Overlay (Fade to white at bottom) - Subtler height */}
+        <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-white via-white/40 to-transparent opacity-100" />
 
         {/* Badges */}
         <div className="absolute top-4 left-4">
@@ -55,10 +55,10 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
       {/* Content */}
       <div className="p-6 pt-2">
         <div className="flex items-center justify-between mb-1">
-          <h3 className="font-heading font-bold text-xl text-[#FF6B35]">
+          <h3 className="font-heading font-bold text-xl text-[#FF6B35] group-hover:text-black transition-colors duration-300">
             {item.name}
           </h3>
-          <span className="font-heading font-bold text-black text-xl">
+          <span className="font-heading font-bold text-black text-xl group-hover:text-[#FF6B35] transition-colors duration-300">
             Rs {item.price}
           </span>
         </div>
