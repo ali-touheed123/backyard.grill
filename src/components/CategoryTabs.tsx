@@ -83,7 +83,6 @@ export function CategoryTabs({ categories, activeCategory, onCategoryChange }: C
               />
             )}
 
-            <span className="text-lg">{category.icon}</span>
             <span className="font-semibold">{category.name}</span>
             <span className={`
               text-xs font-bold px-2 py-0.5 rounded-full

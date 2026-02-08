@@ -36,13 +36,8 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
         {/* Gradient Overlay (Fade to white at bottom) - Subtler height */}
         <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-white via-white/40 to-transparent opacity-100" />
 
-        {/* Badges */}
+        {/* Badges - Removed Veg Badge per user request */}
         <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
-          {(item.isVegetarian || item.categoryId === 'drinks') && (
-            <div className="bg-[#10B981] w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-sm">
-              <Leaf className="w-4 h-4 sm:w-5 sm:h-5 text-white fill-current" />
-            </div>
-          )}
         </div>
 
         {/* Rating Badge */}

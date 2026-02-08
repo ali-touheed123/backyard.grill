@@ -38,22 +38,26 @@ export function Header({
     >
       <div className="container flex items-center justify-between h-16">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <motion.div
-            whileHover={{ scale: 1.05, rotate: 5 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-primary to-warning rounded-xl flex items-center justify-center shadow-glow cursor-pointer"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden cursor-pointer"
           >
-            <span className="text-xl sm:text-2xl">🍽️</span>
+            <img
+              src="/menu/logo.jpeg"
+              alt="Backyard Grill Logo"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
-          <div className="hidden sm:block">
-            <h1 className="font-heading font-bold text-lg text-foreground leading-none">
+          <div>
+            <h1 className="font-heading font-bold text-base sm:text-lg text-foreground leading-none">
               Backyard Grill
             </h1>
             <div className="flex items-center gap-1 mt-0.5">
               <Star className="w-3 h-3 fill-warning text-warning" />
-              <span className="text-xs text-muted-foreground">4.9 • Pakistani Cuisine</span>
+              <span className="text-[10px] sm:text-xs text-muted-foreground whitespace-nowrap">4.9 • Pakistani Cuisine</span>
             </div>
           </div>
         </div>

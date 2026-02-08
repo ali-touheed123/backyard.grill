@@ -166,53 +166,10 @@ export function HeroSection({ onOrderNowClick }: HeroSectionProps) {
             </motion.div>
           </motion.div>
         </motion.div>
-
-        {/* Special Card - Responsive Adaption */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, type: 'spring', stiffness: 100 }}
-          className="lg:absolute lg:right-8 lg:top-1/2 lg:-translate-y-1/2 mt-12 lg:mt-0 z-30"
-        >
-          <div className="bg-card/95 backdrop-blur-xl rounded-3xl p-6 shadow-hero w-full max-w-sm mx-auto lg:w-72 border border-border/50">
-            <div className="text-center mb-4">
-              <span className="text-4xl">🍽️</span>
-              <h3 className="font-heading font-bold text-lg mt-2 font-poppins">Today's Special</h3>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-xl hover:bg-muted transition-colors">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">🍔</span>
-                  <span className="font-medium text-sm">BYG Beast</span>
-                </div>
-                <span className="font-bold text-primary text-sm">Rs 725</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-xl hover:bg-muted transition-colors">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">🍄</span>
-                  <span className="font-medium text-sm">Mushroom Royale</span>
-                </div>
-                <span className="font-bold text-primary text-sm">Rs 695</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-primary/10 rounded-xl border border-primary/20">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl animate-bounce-slow">🎁</span>
-                  <span className="font-medium text-sm text-primary">25% OFF First Order</span>
-                </div>
-              </div>
-            </div>
-            <Button
-              className="w-full mt-4 shadow-glow"
-              onClick={onOrderNowClick}
-            >
-              View Full Menu
-            </Button>
-          </div>
-        </motion.div>
       </div>
 
-      {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
+      {/* Bottom Gradient - Reduced intensity and height */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background via-background/40 to-transparent z-10" />
 
       {/* Scroll Indicator */}
       <motion.div
@@ -236,6 +193,6 @@ export function HeroSection({ onOrderNowClick }: HeroSectionProps) {
           </div>
         </motion.div>
       </motion.div>
-    </section>
+    </section >
   );
 }
