@@ -3,13 +3,7 @@ import { Star, Clock, MapPin, Phone, Sparkles, TrendingUp, Users } from 'lucide-
 import { Button } from '@/components/ui/button';
 import heroImage from '@/assets/hero-food.jpg';
 
-const floatingFoods = [
-  { emoji: '🍗', delay: 0, x: '85%', y: '15%', size: 'text-5xl' },
-  { emoji: '🍚', delay: 0.5, x: '90%', y: '45%', size: 'text-4xl' },
-  { emoji: '🌶️', delay: 1, x: '80%', y: '70%', size: 'text-3xl' },
-  { emoji: '🍖', delay: 1.5, x: '75%', y: '25%', size: 'text-4xl' },
-  { emoji: '🥘', delay: 2, x: '95%', y: '60%', size: 'text-5xl' },
-];
+
 
 interface HeroSectionProps {
   onOrderNowClick?: () => void;
@@ -36,39 +30,7 @@ export function HeroSection({ onOrderNowClick }: HeroSectionProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </motion.div>
 
-      {/* Floating Food Elements */}
-      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden hidden md:block">
-        {floatingFoods.map((food, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{
-              opacity: 0.8,
-              scale: 1,
-              y: [0, -20, 0],
-              rotate: [0, 10, -10, 0],
-            }}
-            transition={{
-              delay: food.delay,
-              duration: 0.5,
-              y: {
-                duration: 3 + index * 0.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              },
-              rotate: {
-                duration: 4 + index * 0.3,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              },
-            }}
-            className={`absolute ${food.size} drop-shadow-2xl`}
-            style={{ left: food.x, top: food.y }}
-          >
-            {food.emoji}
-          </motion.div>
-        ))}
-      </div>
+
 
       {/* Content */}
       <div className="container relative z-20 py-12 px-4 sm:px-6 lg:px-8">
@@ -221,17 +183,17 @@ export function HeroSection({ onOrderNowClick }: HeroSectionProps) {
             <div className="space-y-3">
               <div className="flex items-center justify-between p-3 bg-muted/50 rounded-xl hover:bg-muted transition-colors">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl">🍗</span>
-                  <span className="font-medium text-sm">Chicken Biryani</span>
+                  <span className="text-2xl">🍔</span>
+                  <span className="font-medium text-sm">BYG Beast</span>
                 </div>
-                <span className="font-bold text-primary text-sm">Rs 650</span>
+                <span className="font-bold text-primary text-sm">Rs 725</span>
               </div>
               <div className="flex items-center justify-between p-3 bg-muted/50 rounded-xl hover:bg-muted transition-colors">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl">🍖</span>
-                  <span className="font-medium text-sm">Mutton Karahi</span>
+                  <span className="text-2xl">🍄</span>
+                  <span className="font-medium text-sm">Mushroom Royale</span>
                 </div>
-                <span className="font-bold text-primary text-sm">Rs 1,200</span>
+                <span className="font-bold text-primary text-sm">Rs 695</span>
               </div>
               <div className="flex items-center justify-between p-3 bg-primary/10 rounded-xl border border-primary/20">
                 <div className="flex items-center gap-2">

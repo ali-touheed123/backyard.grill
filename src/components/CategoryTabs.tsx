@@ -65,7 +65,7 @@ export function CategoryTabs({ categories, activeCategory, onCategoryChange }: C
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
             className={`
-              relative flex items-center gap-3 px-6 py-4 rounded-2xl whitespace-nowrap transition-all duration-300
+              relative flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap transition-all duration-300
               ${activeCategory === category.id
                 ? 'text-primary-foreground shadow-glow scale-105 z-10'
                 : 'bg-card hover:bg-muted text-foreground border border-border hover:border-primary/30 z-0'
@@ -83,7 +83,7 @@ export function CategoryTabs({ categories, activeCategory, onCategoryChange }: C
               />
             )}
 
-            <span className="text-xl">{category.icon}</span>
+            <span className="text-lg">{category.icon}</span>
             <span className="font-semibold">{category.name}</span>
             <span className={`
               text-xs font-bold px-2 py-0.5 rounded-full

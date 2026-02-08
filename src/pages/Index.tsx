@@ -25,7 +25,7 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
 const Index = () => {
-  const [activeCategory, setActiveCategory] = useState('new-on-menu');
+  const [activeCategory, setActiveCategory] = useState<string>('new-on-menu'); // Tracks visible category or selected tab
   const [activeTab, setActiveTab] = useState('home');
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
@@ -88,6 +88,22 @@ const Index = () => {
     }
   };
 
+  const handleCategoryClick = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    const element = document.getElementById(`category-${categoryId}`);
+    if (element) {
+      // Offset for header
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
       <Header
@@ -139,28 +155,60 @@ const Index = () => {
           <CategoryTabs
             categories={categories}
             activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
+            onCategoryChange={handleCategoryClick}
           />
 
-          {/* Menu Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 pt-4">
-            <AnimatePresence>
-              {filteredItems.map((item) => (
-                <MenuItemCard
-                  key={item.id}
-                  item={item}
-                  onAddToCart={handleQuickAdd}
-                  onItemClick={handleItemClick}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
+          {/* Menu Sections */}
+          <div className="mt-8 space-y-12">
+            {searchQuery.trim() ? (
+              // Search Results View
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <AnimatePresence>
+                  {searchResults.map((item) => (
+                    <MenuItemCard
+                      key={item.id}
+                      item={item}
+                      onAddToCart={handleQuickAdd}
+                      onItemClick={handleItemClick}
+                    />
+                  ))}
+                </AnimatePresence>
+                {searchResults.length === 0 && (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-muted-foreground">No items found matching "{searchQuery}"</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // All Categories View
+              <div>
+                {categories.map((category) => {
+                  const categoryItems = menuItems.filter(item => item.categoryId === category.id);
+                  if (categoryItems.length === 0) return null;
 
-          {filteredItems.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No items in this category yet.</p>
-            </div>
-          )}
+                  return (
+                    <div key={category.id} id={`category-${category.id}`} className="mb-12 scroll-mt-24">
+                      <div className="flex items-center gap-3 mb-6">
+                        <span className="text-3xl">{category.icon}</span>
+                        <h3 className="font-heading text-2xl font-bold">{category.name}</h3>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {categoryItems.map((item) => (
+                          <MenuItemCard
+                            key={item.id}
+                            item={item}
+                            onAddToCart={handleQuickAdd}
+                            onItemClick={handleItemClick}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
