@@ -150,14 +150,18 @@ export const BurgerExplosion = () => {
     return (
         <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-20vh]">
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-                <div className="relative w-full h-full flex items-center justify-center">
+                {/* 
+                    Constrain the inner container to make the burger appear "small" 
+                    as requested, while maintaining the background-stick feel.
+                */}
+                <div className="relative w-full max-w-xl md:max-w-2xl h-[50vh] md:h-[60vh] flex items-center justify-center">
                     {!isLoading ? (
                         <motion.canvas
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1 }}
                             ref={canvasRef}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover rounded-[2rem]"
                             style={{
                                 // Direct filter fallback to ensure black is handled
                                 filter: 'contrast(1.1) brightness(1.1)'
