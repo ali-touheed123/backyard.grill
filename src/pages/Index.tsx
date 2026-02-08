@@ -162,7 +162,7 @@ const Index = () => {
           <div className="mt-8 space-y-12">
             {searchQuery.trim() ? (
               // Search Results View
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                 <AnimatePresence>
                   {searchResults.map((item) => (
                     <MenuItemCard
@@ -193,7 +193,7 @@ const Index = () => {
                         <h3 className="font-heading text-2xl font-bold">{category.name}</h3>
                       </div>
 
-                      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                         {categoryItems.map((item) => (
                           <MenuItemCard
                             key={item.id}
