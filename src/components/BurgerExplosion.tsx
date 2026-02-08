@@ -95,26 +95,37 @@ export const BurgerExplosion = () => {
         const img = images[safeIndex];
 
         if (img && img.width > 0) {
-            // Use an offscreen canvas for background removal if not already processed
-            // For simplicity and performance, we'll draw and then filter pixels if needed
-            // But first, clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const canvasWidth = canvas.width;
             const canvasHeight = canvas.height;
 
-            // Balanced scaling: We use a factor of 1.0 (no extra zoom) 
-            // since mixBlendMode handles the black background removal.
-            const verticalZoom = 1.0;
-            const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height) * verticalZoom;
+            // PROFESSIONAL SOURCE CLIPPING
+            // We specifically extract the middle 80% of the image to bypass the black letterboxing
+            // on the source frames themselves.
+            const sourceYPadding = img.height * 0.12; // 12% padding from top/bottom
+            const sourceHeight = img.height - (sourceYPadding * 2);
+            const sourceWidth = img.width;
 
-            const x = (canvasWidth / 2) - (img.width / 2) * scale;
-            const y = (canvasHeight / 2) - (img.height / 2) * scale;
+            // Calculate scale to fit the CLIPPED source into the canvas
+            const scale = Math.min(canvasWidth / sourceWidth, canvasHeight / sourceHeight);
+
+            const drawWidth = sourceWidth * scale;
+            const drawHeight = sourceHeight * scale;
+
+            const dx = (canvasWidth - drawWidth) / 2;
+            const dy = (canvasHeight - drawHeight) / 2;
 
             ctx.save();
-            // Blending handles the transparency without needing to crop edges aggressively
+            // Blending handles the remaining transparency perfectly
             ctx.globalCompositeOperation = 'screen';
-            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+
+            // Draw only the "burger zone" of the source image
+            ctx.drawImage(
+                img,
+                0, sourceYPadding, sourceWidth, sourceHeight, // Source rect
+                dx, dy, drawWidth, drawHeight                // Dest rect
+            );
             ctx.restore();
         }
     };
@@ -139,10 +150,10 @@ export const BurgerExplosion = () => {
         <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-10vh]">
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
                 {/* 
-                    We increase the height to h-[70vh] to give the explosion more room 
-                    and remove the 'max-w-lg' to ensure ingredients don't hit the sides.
+                    Professional layout: High-impact width and plenty of vertical room (85vh)
+                    to ensure the explosion is fully shown and looks premium.
                 */}
-                <div className="relative w-full max-w-2xl h-[70vh] flex items-center justify-center overflow-hidden">
+                <div className="relative w-full max-w-4xl h-[85vh] flex items-center justify-center overflow-hidden">
                     {!isLoading ? (
                         <motion.canvas
                             initial={{ opacity: 0 }}
@@ -152,7 +163,7 @@ export const BurgerExplosion = () => {
                             className="w-full h-full object-contain"
                             style={{
                                 mixBlendMode: 'screen',
-                                filter: 'contrast(1.05)'
+                                filter: 'contrast(1.05) brightness(1.05)'
                             }}
                         />
                     ) : (
