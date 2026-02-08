@@ -104,29 +104,16 @@ export const BurgerExplosion = () => {
             const canvasHeight = canvas.height;
 
             // "COVER" scaling logic with extra vertical zoom to crop "blackish" bars
-            // Reducing zoom from 1.1 strictly to 0.85 to ensure the burger buns 
-            // have breathing room and don't get cut off during explosion.
-            const verticalZoom = 0.85;
+            // Balanced zoom at 1.28: enough to hide black lines, but small enough to see the whole burger
+            const verticalZoom = 1.28;
             const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height) * verticalZoom;
 
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
             const y = (canvasHeight / 2) - (img.height / 2) * scale;
 
-            // Draw to a temporary offscreen context to filter out the black background
-            // We use a simple trick: if the background is pure black, we can use 
-            // a globalCompositeOperation or a pixel filter.
-
-            // For real-time, we'll draw the image and then use a pixel-level check
-            // if it's not already transparent. 
-            // NOTE: If the images are ALREADY transparent PNGs, standard drawImage is enough.
-            // If they have black backgrounds, we'll use 'screen' blend mode as a performant fallback
-            // while we re-apply the user's requested vertical crop.
-
             ctx.save();
-            // This blend mode makes black (0,0,0) transparent when drawn on a background.
-            // Since we want the burger on the WEBSITE'S background, this works perfectly.
+            // Using 'screen' to knock out the black background
             ctx.globalCompositeOperation = 'screen';
-
             ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
             ctx.restore();
         }
@@ -149,23 +136,24 @@ export const BurgerExplosion = () => {
     }, [images, isLoading, frameIndex]);
 
     return (
-        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-20vh]">
+        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-20vh] mt-[-10vh]">
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
                 {/* 
-                    Increasing height to 70vh and reducing inner zoom to 0.85
-                    Ensures buns are fully visible during the explosion.
+                    Constrain the inner container to make the burger appearance "small" 
+                    as requested, while maintaining the background-stick feel.
                 */}
-                <div className="relative w-full max-w-xl md:max-w-2xl h-[60vh] md:h-[70vh] flex items-center justify-center">
+                <div className="relative w-full max-w-lg md:max-w-xl h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
                     {!isLoading ? (
                         <motion.canvas
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1 }}
                             ref={canvasRef}
-                            className="w-full h-full object-cover rounded-[2rem]"
+                            className="w-full h-full object-cover"
                             style={{
-                                // Direct filter fallback to ensure black is handled
-                                filter: 'contrast(1.1) brightness(1.1)'
+                                // Blend mode on the element for extra punch in removing blackish artifacts
+                                mixBlendMode: 'screen',
+                                filter: 'contrast(1.05)'
                             }}
                         />
                     ) : (
