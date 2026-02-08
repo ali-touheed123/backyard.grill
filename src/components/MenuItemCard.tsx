@@ -26,11 +26,11 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
       onClick={() => onItemClick(item)}
     >
       {/* Image Container */}
-      <div className="relative overflow-hidden">
+      <div className="relative h-48 overflow-hidden bg-muted/20">
         <motion.img
           src={item.image}
           alt={item.name}
-          className="w-full h-auto object-contain transition-transform duration-500"
+          className="w-full h-full object-contain p-4 transition-transform duration-500"
           loading="lazy"
           whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.6 }}
