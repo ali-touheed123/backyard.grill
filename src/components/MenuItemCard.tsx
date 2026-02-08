@@ -11,7 +11,7 @@ interface MenuItemCardProps {
 
 export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardProps) {
   const formatPrice = (price: number) => {
-    return `Rs ${price.toLocaleString()}`;
+    return `Rs. ${price.toLocaleString()}`;
   };
 
   return (
@@ -22,90 +22,87 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
       whileHover={{ y: -5 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.3 }}
-      className="group h-full flex flex-col bg-card rounded-2xl overflow-hidden border border-border/40 shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer"
+      className="group h-full flex flex-col bg-card rounded-[2rem] overflow-hidden border border-border/40 shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer"
       onClick={() => onItemClick(item)}
     >
-      {/* Image Container - Full Bleed */}
-      <div className="relative h-56 overflow-hidden">
+      {/* Image Container - Gray Background, Contained Image */}
+      <div className="relative h-64 overflow-hidden bg-muted/30 p-4 flex items-center justify-center">
         <motion.img
           src={item.image}
           alt={item.name}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="w-full h-full object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
 
-        {/* Gradient Overlay for badges visibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
-
         {/* Badges */}
-        <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
-          {item.isFeatured && (
-            <motion.span
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded shadow-lg"
-            >
-              Popular
-            </motion.span>
-          )}
-          <div className="flex gap-1">
+        <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
+          <div className="flex gap-2">
             {item.isSpicy && (
-              <span className="bg-destructive text-destructive-foreground w-6 h-6 rounded flex items-center justify-center shadow-sm">
-                <Flame className="w-3.5 h-3.5 fill-current" />
+              <span className="bg-white/90 backdrop-blur text-orange-500 p-1.5 rounded-lg shadow-sm">
+                <Flame className="w-4 h-4 fill-current" />
               </span>
             )}
             {item.isVegetarian && (
-              <span className="bg-success text-success-foreground w-6 h-6 rounded flex items-center justify-center shadow-sm">
-                <Leaf className="w-3.5 h-3.5 fill-current" />
+              <span className="bg-white/90 backdrop-blur text-green-500 p-1.5 rounded-lg shadow-sm">
+                <Leaf className="w-4 h-4 fill-current" />
               </span>
             )}
           </div>
         </div>
 
         {/* Rating Badge */}
-        <div className="absolute top-3 right-3 z-10 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1 shadow-sm">
-          <Star className="w-3 h-3 fill-warning text-warning" />
+        <div className="absolute top-4 right-4 z-10 bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
           4.8
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col flex-grow relative">
-        <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-heading font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
+      <div className="p-5 flex flex-col flex-grow">
+        <div className="mb-2">
+          <h3 className="font-heading font-extrabold text-2xl text-foreground mb-1 leading-tight">
             {item.name}
           </h3>
-          <span className="text-lg font-bold text-primary whitespace-nowrap">
-            {formatPrice(item.price)}
-          </span>
+
+          {item.nameUrdu && (
+            <p className="text-sm text-muted-foreground font-medium text-right mb-1 font-noto-nastaliq" dir="rtl">
+              {item.nameUrdu}
+            </p>
+          )}
+
+          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+            {item.description}
+          </p>
         </div>
 
-        {item.nameUrdu && (
-          <p className="text-sm text-muted-foreground font-medium text-right mb-2 font-noto-nastaliq" dir="rtl">
-            {item.nameUrdu}
-          </p>
-        )}
-
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-4 leading-relaxed flex-grow">
-          {item.description}
-        </p>
-
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-border/50">
-          <div className="flex items-center gap-1.5 text-muted-foreground text-xs font-medium">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{item.prepTime} min</span>
+        <div className="mt-auto pt-4 space-y-3">
+          {/* Price Pill */}
+          <div className="flex items-center">
+            <span className="bg-[#f97316] text-white font-bold px-4 py-1.5 rounded-full text-lg shadow-sm">
+              {formatPrice(item.price)}
+            </span>
+            {item.prepTime && (
+              <div className="flex items-center gap-1 text-muted-foreground text-sm ml-auto">
+                <Clock className="w-4 h-4" />
+                <span>{item.prepTime} min</span>
+              </div>
+            )}
           </div>
 
+          {/* Add to Cart Button - Full Width */}
           <Button
-            size="sm"
-            className="rounded-full px-4 h-8 font-semibold shadow-none group-hover:shadow-md transition-all duration-300"
+            className="w-full bg-[#facc15] hover:bg-[#eab308] text-black font-extrabold text-lg h-12 rounded-xl uppercase tracking-wide shadow-md hover:shadow-lg transition-all"
             onClick={(e) => {
               e.stopPropagation();
               onAddToCart(item);
             }}
           >
-            <Plus className="w-3.5 h-3.5 mr-1" />
-            Add
+            <div className="flex items-center justify-center gap-2">
+              <span className="bg-white/30 p-1 rounded-sm">
+                <Plus className="w-4 h-4" />
+              </span>
+              Add to Cart
+            </div>
           </Button>
         </div>
       </div>
