@@ -170,9 +170,9 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         </div>
 
                         {/* Right Side: Flow */}
-                        <div className="flex-1 flex flex-col relative bg-background">
+                        <div className="flex-1 flex flex-col min-h-0 relative bg-background h-full">
                             {/* Header */}
-                            <div className="p-6 md:p-8 border-b border-border/50 flex items-center justify-between">
+                            <div className="p-6 md:p-8 border-b border-border/50 flex items-center justify-between shrink-0">
                                 <div>
                                     <h2 className="font-heading text-3xl font-bold tracking-tight">Checkout</h2>
                                     {step !== 'confirming' && (
@@ -202,8 +202,8 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                 </button>
                             </div>
 
-                            {/* Content */}
-                            <div className="flex-1 overflow-y-auto p-6 md:p-10">
+                            {/* Content - Fixed Scrolling with min-h-0 */}
+                            <div className="flex-1 overflow-y-auto p-6 md:p-10 min-h-0">
                                 {step === 'details' && (
                                     <motion.form
                                         initial={{ opacity: 0, y: 20 }}
@@ -266,8 +266,8 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                         animate={{ opacity: 1, y: 0 }}
                                         className="space-y-10 max-w-xl mx-auto"
                                     >
-                                        <div className="space-y-2 text-center">
-                                            <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                                        <div className="space-y-2 text-center text items-center justify-center flex flex-col">
+                                            <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mb-4">
                                                 <CreditCard className="w-8 h-8 text-primary" />
                                             </div>
                                             <h3 className="text-2xl font-bold tracking-tight">Payment Method</h3>
@@ -283,7 +283,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                                 return;
                                             }
                                             setPaymentMethod(val);
-                                        }} className="grid grid-cols-1 gap-5">
+                                        }} className="grid grid-cols-1 gap-5 pb-10">
                                             {[
                                                 { id: 'cod', label: 'Cash on Delivery', desc: 'Pay when your food arrives', icon: Truck, soon: false },
                                                 { id: 'card', label: 'Credit/Debit Card', desc: 'Securely pay via card', icon: CreditCard, soon: true },
@@ -368,33 +368,33 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
                             {/* Footer */}
                             {step !== 'confirming' && (
-                                <div className="p-6 md:p-10 border-t border-border/50 bg-background/80 backdrop-blur-xl sticky bottom-0 z-30">
-                                    <div className="md:hidden flex flex-col gap-2 mb-8 p-6 bg-muted/30 rounded-[2rem] border border-border/50">
+                                <div className="p-4 md:p-10 border-t border-border/50 bg-background/80 backdrop-blur-xl z-30 shrink-0">
+                                    <div className="md:hidden flex flex-col gap-2 mb-4 p-4 bg-muted/30 rounded-2xl border border-border/50">
                                         <div className="flex justify-between items-center">
-                                            <span className="text-muted-foreground font-medium">Order Total</span>
-                                            <span className="text-2xl font-black text-primary">Rs {total.toLocaleString()}</span>
+                                            <span className="text-muted-foreground font-medium text-sm">Order Total</span>
+                                            <span className="text-xl font-black text-primary">Rs {total.toLocaleString()}</span>
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-5 max-w-xl mx-auto items-center">
+                                    <div className="flex gap-4 max-w-xl mx-auto items-center">
                                         {step === 'payment' && (
                                             <button
-                                                className="h-16 w-16 rounded-[2rem] bg-muted/50 hover:bg-muted flex items-center justify-center transition-all group shrink-0 active:scale-90"
+                                                className="h-14 w-14 rounded-2xl bg-muted/50 hover:bg-muted flex items-center justify-center transition-all group shrink-0 active:scale-90"
                                                 onClick={() => setStep('details')}
                                                 disabled={isSubmitting}
                                             >
-                                                <ChevronLeft className="w-7 h-7" />
+                                                <ChevronLeft className="w-6 h-6" />
                                             </button>
                                         )}
                                         <Button
-                                            className="flex-1 h-16 gap-3 text-xl font-bold shadow-glow rounded-[2rem] transition-all hover:scale-[1.02] active:scale-[0.98]"
+                                            className="flex-1 h-14 gap-3 text-lg font-bold shadow-glow rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]"
                                             onClick={step === 'details' ? () => document.getElementById('checkout-details')?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) : handlePlaceOrder}
                                             disabled={isSubmitting}
                                         >
                                             {step === 'details' ? (
                                                 <>
                                                     Next: Payment
-                                                    <ArrowRight className="w-6 h-6" />
+                                                    <ArrowRight className="w-5 h-5" />
                                                 </>
                                             ) : (
                                                 <>
