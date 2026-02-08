@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Check, CreditCard, Truck, User, MapPin, ArrowRight, Loader2, ShoppingBag } from 'lucide-react';
+import { X, Check, CreditCard, Truck, User, MapPin, ArrowRight, Loader2, ShoppingBag, ChevronLeft, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -95,68 +95,107 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         className="fixed inset-0 md:inset-4 lg:inset-10 xl:inset-20 z-[70] bg-background rounded-none md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row"
                     >
                         {/* Left Side: Order Summary (Visible on Desktop) */}
-                        <div className="hidden md:flex md:w-1/3 bg-muted/30 border-r border-border p-8 flex-col">
-                            <div className="flex items-center gap-3 mb-8">
-                                <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-glow">
-                                    <ShoppingBag className="w-6 h-6 text-primary-foreground" />
+                        <div className="hidden md:flex md:w-80 lg:w-96 bg-muted/20 border-r border-border p-8 flex-col relative overflow-hidden">
+                            {/* Decorative Background Pattern */}
+                            <div className="absolute inset-0 opacity-[0.03] pointer-events-none select-none">
+                                <Search className="absolute -top-10 -right-10 w-40 h-40 rotate-12" />
+                                <ShoppingBag className="absolute -bottom-10 -left-10 w-40 h-40 -rotate-12" />
+                            </div>
+
+                            <div className="relative z-10 flex items-center gap-4 mb-10">
+                                <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-glow shrink-0">
+                                    <ShoppingBag className="w-7 h-7 text-primary-foreground" />
                                 </div>
                                 <div>
-                                    <h3 className="font-heading text-xl font-bold">Order Summary</h3>
-                                    <p className="text-sm text-muted-foreground">{items.length} items from Backyard Grill</p>
+                                    <h3 className="font-heading text-2xl font-bold tracking-tight">Your Order</h3>
+                                    <p className="text-sm text-muted-foreground whitespace-nowrap">
+                                        {items.length} {items.length === 1 ? 'item' : 'items'} from Backyard Grill
+                                    </p>
                                 </div>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                            <div className="relative z-10 flex-1 overflow-y-auto space-y-6 pr-2 scrollbar-hide">
                                 {items.map((item) => (
-                                    <div key={item.id} className="flex gap-4">
-                                        <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-border">
-                                            <img src={item.menuItem.image} alt={item.menuItem.name} className="w-full h-full object-cover" />
+                                    <motion.div
+                                        key={item.id}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        className="flex gap-4 group"
+                                    >
+                                        <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 border border-border/50 shadow-sm group-hover:shadow-md transition-shadow">
+                                            <img src={item.menuItem.image} alt={item.menuItem.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <h4 className="font-semibold text-sm truncate">{item.menuItem.name}</h4>
-                                            <div className="flex flex-col text-xs text-muted-foreground">
-                                                <span>Qty: {item.quantity}</span>
-                                                {item.selectedWeight && <span>Weight: {item.selectedWeight} Kg</span>}
+                                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                                            <h4 className="font-bold text-base truncate group-hover:text-primary transition-colors">{item.menuItem.name}</h4>
+                                            <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
+                                                <span className="flex items-center gap-1">
+                                                    <span className="w-1 h-1 rounded-full bg-primary/40" />
+                                                    Qty: {item.quantity}
+                                                </span>
+                                                {item.selectedWeight && (
+                                                    <span className="flex items-center gap-1">
+                                                        <span className="w-1 h-1 rounded-full bg-primary/40" />
+                                                        {item.selectedWeight} Kg
+                                                    </span>
+                                                )}
                                             </div>
-                                            <p className="text-sm font-bold text-primary mt-1">Rs {item.totalPrice.toLocaleString()}</p>
+                                            <p className="text-base font-bold text-primary mt-1">Rs {item.totalPrice.toLocaleString()}</p>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
 
-                            <div className="mt-8 pt-8 border-t border-border space-y-3">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-muted-foreground">Subtotal</span>
-                                    <span>Rs {subtotal.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-muted-foreground">Delivery Fee</span>
-                                    <span>Rs {deliveryFee.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between text-xl font-bold pt-2 border-t border-dashed border-border">
-                                    <span>Total</span>
-                                    <span className="text-primary">Rs {total.toLocaleString()}</span>
+                            <div className="relative z-10 mt-8 space-y-4">
+                                <div className="p-6 bg-background/50 rounded-3xl border border-border/50 backdrop-blur-sm shadow-sm space-y-3">
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-muted-foreground">Items Total</span>
+                                        <span className="font-medium">Rs {subtotal.toLocaleString()}</span>
+                                    </div>
+                                    <div className="flex justify-between text-sm">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-muted-foreground">Delivery</span>
+                                            <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider">Fast</span>
+                                        </div>
+                                        <span className="font-medium">Rs {deliveryFee.toLocaleString()}</span>
+                                    </div>
+                                    <div className="pt-3 mt-3 border-t border-dashed border-border flex justify-between items-baseline">
+                                        <span className="font-heading font-bold text-xl">Grand Total</span>
+                                        <div className="text-right">
+                                            <span className="block text-2xl font-heading font-black text-primary">Rs {total.toLocaleString()}</span>
+                                            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Incl. all taxes</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right Side: Flow */}
-                        <div className="flex-1 flex flex-col relative">
+                        <div className="flex-1 flex flex-col relative bg-background">
                             {/* Header */}
-                            <div className="p-6 md:p-8 border-b border-border flex items-center justify-between">
+                            <div className="p-6 md:p-8 border-b border-border/50 flex items-center justify-between">
                                 <div>
-                                    <h2 className="font-heading text-2xl md:text-3xl font-bold">Checkout</h2>
+                                    <h2 className="font-heading text-3xl font-bold tracking-tight">Checkout</h2>
                                     {step !== 'confirming' && (
-                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                                            <span className={step === 'details' ? 'text-primary font-bold' : ''}>1. Details</span>
-                                            <ArrowRight className="w-3 h-3" />
-                                            <span className={step === 'payment' ? 'text-primary font-bold' : ''}>2. Payment</span>
+                                        <div className="flex items-center gap-4 mt-2">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${step === 'details' ? 'bg-primary text-primary-foreground' : 'bg-success text-success-foreground'}`}>
+                                                    {step === 'details' ? '1' : <Check className="w-3 h-3" />}
+                                                </div>
+                                                <span className={`text-sm font-semibold ${step === 'details' ? 'text-foreground' : 'text-muted-foreground text-success'}`}>Details</span>
+                                            </div>
+                                            <div className="w-8 h-[2px] bg-border rounded-full" />
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${step === 'payment' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                                                    2
+                                                </div>
+                                                <span className={`text-sm font-semibold ${step === 'payment' ? 'text-foreground' : 'text-muted-foreground'}`}>Payment</span>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                                 <button
                                     onClick={handleClose}
-                                    className="w-12 h-12 rounded-2xl hover:bg-muted flex items-center justify-center transition-colors group"
+                                    className="w-12 h-12 rounded-2xl bg-muted/30 hover:bg-muted flex items-center justify-center transition-all group active:scale-95"
                                     disabled={isSubmitting}
                                 >
                                     <X className="w-6 h-6 group-hover:rotate-90 transition-transform" />
@@ -164,86 +203,115 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                             </div>
 
                             {/* Content */}
-                            <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                            <div className="flex-1 overflow-y-auto p-6 md:p-10">
                                 {step === 'details' && (
                                     <motion.form
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
                                         id="checkout-details"
                                         onSubmit={handleDetailsSubmit}
-                                        className="space-y-6 max-w-lg mx-auto"
+                                        className="space-y-10 max-w-xl mx-auto"
                                     >
-                                        <div className="space-y-2">
-                                            <h3 className="text-lg font-bold flex items-center gap-2">
-                                                <User className="w-5 h-5 text-primary" />
-                                                Personal Information
-                                            </h3>
-                                        </div>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div className="space-y-2">
-                                                <Label htmlFor="firstName">First Name</Label>
-                                                <Input id="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="Ali" className="h-12" required />
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                                    <User className="w-5 h-5 text-primary" />
+                                                </div>
+                                                <h3 className="text-xl font-bold tracking-tight">Who's ordering?</h3>
                                             </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="lastName">Last Name</Label>
-                                                <Input id="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Khan" className="h-12" required />
+
+                                            <div className="bg-muted/30 p-8 rounded-[2rem] border border-border/50 space-y-6">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="firstName" className="text-sm font-bold ml-1">First Name</Label>
+                                                        <Input id="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="Ali" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="lastName" className="text-sm font-bold ml-1">Last Name</Label>
+                                                        <Input id="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Khan" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                    </div>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="phone" className="text-sm font-bold ml-1">Phone Number</Label>
+                                                    <Input id="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="+92 300 1234567" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="phone">Phone Number</Label>
-                                            <Input id="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="+92 300 1234567" className="h-12" required />
                                         </div>
 
-                                        <div className="pt-4 space-y-2 border-t border-border">
-                                            <h3 className="text-lg font-bold flex items-center gap-2">
-                                                <MapPin className="w-5 h-5 text-primary" />
-                                                Delivery Address
-                                            </h3>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="address">Full Address</Label>
-                                            <Input id="address" value={formData.address} onChange={handleInputChange} placeholder="House #, Street, Block, Area" className="h-12" required />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="notes">Delivery Notes (Optional)</Label>
-                                            <Input id="notes" value={formData.notes} onChange={handleInputChange} placeholder="e.g. Near Blue Mosque, Ring the bell" className="h-12" />
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                                    <MapPin className="w-5 h-5 text-primary" />
+                                                </div>
+                                                <h3 className="text-xl font-bold tracking-tight">Delivery Address</h3>
+                                            </div>
+
+                                            <div className="bg-muted/30 p-8 rounded-[2rem] border border-border/50 space-y-6">
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="address" className="text-sm font-bold ml-1">Full Address</Label>
+                                                    <Input id="address" value={formData.address} onChange={handleInputChange} placeholder="House #, Street, Block, Area" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="notes" className="text-sm font-bold ml-1">Delivery Notes (Optional)</Label>
+                                                    <Input id="notes" value={formData.notes} onChange={handleInputChange} placeholder="e.g. Near Blue Mosque, Ring the bell" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </motion.form>
                                 )}
 
                                 {step === 'payment' && (
                                     <motion.div
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        className="space-y-8 max-w-lg mx-auto"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="space-y-10 max-w-xl mx-auto"
                                     >
-                                        <div className="space-y-2">
-                                            <h3 className="text-lg font-bold flex items-center gap-2">
-                                                <CreditCard className="w-5 h-5 text-primary" />
-                                                Choose Payment Method
-                                            </h3>
-                                            <p className="text-sm text-muted-foreground">Select how you'd like to pay for your order</p>
+                                        <div className="space-y-2 text-center">
+                                            <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                                                <CreditCard className="w-8 h-8 text-primary" />
+                                            </div>
+                                            <h3 className="text-2xl font-bold tracking-tight">Payment Method</h3>
+                                            <p className="text-muted-foreground">Select how you'd like to pay for your order</p>
                                         </div>
 
-                                        <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="grid grid-cols-1 gap-4">
+                                        <RadioGroup value={paymentMethod} onValueChange={(val) => {
+                                            if (val === 'card' || val === 'transfer') {
+                                                toast.info(`${val === 'card' ? 'Debit/Credit Card' : 'Bank Transfer'} Coming Soon!`, {
+                                                    description: "We are currently only accepting Cash on Delivery for the best service experience.",
+                                                    icon: <Check className="w-5 h-5 text-primary" />
+                                                });
+                                                return;
+                                            }
+                                            setPaymentMethod(val);
+                                        }} className="grid grid-cols-1 gap-5">
                                             {[
-                                                { id: 'cod', label: 'Cash on Delivery', desc: 'Pay when your food arrives', icon: Truck },
-                                                { id: 'card', label: 'Credit/Debit Card', desc: 'Securely pay via card', icon: CreditCard },
-                                                { id: 'transfer', label: 'Bank Transfer', desc: 'Direct bank account payment', icon: Check },
+                                                { id: 'cod', label: 'Cash on Delivery', desc: 'Pay when your food arrives', icon: Truck, soon: false },
+                                                { id: 'card', label: 'Credit/Debit Card', desc: 'Securely pay via card', icon: CreditCard, soon: true },
+                                                { id: 'transfer', label: 'Bank Transfer', desc: 'Direct bank account payment', icon: Check, soon: true },
                                             ].map((method) => (
                                                 <Label
                                                     key={method.id}
                                                     htmlFor={method.id}
-                                                    className={`flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all hover:bg-muted/50 ${paymentMethod === method.id ? 'border-primary bg-primary/5 shadow-sm' : 'border-border'}`}
+                                                    className={`group relative flex items-center justify-between p-6 rounded-[2rem] border-2 cursor-pointer transition-all duration-300 active:scale-[0.98] ${paymentMethod === method.id
+                                                        ? 'border-primary bg-primary/[0.03] shadow-lg shadow-primary/5'
+                                                        : method.soon ? 'border-border opacity-60 hover:opacity-100 hover:border-primary/30' : 'border-border hover:bg-muted/30 hover:border-primary/30'}`}
                                                 >
-                                                    <div className="flex items-center gap-4">
-                                                        <RadioGroupItem value={method.id} id={method.id} />
+                                                    <div className="flex items-center gap-5">
+                                                        <div className="relative">
+                                                            <RadioGroupItem value={method.id} id={method.id} disabled={method.soon} className="w-5 h-5 border-2 border-primary" />
+                                                            {method.soon && <div className="absolute inset-0 bg-background/50 cursor-not-allowed" />}
+                                                        </div>
                                                         <div>
-                                                            <p className="font-bold">{method.label}</p>
-                                                            <p className="text-xs text-muted-foreground">{method.desc}</p>
+                                                            <div className="flex items-center gap-2">
+                                                                <p className="font-bold text-lg">{method.label}</p>
+                                                                {method.soon && (
+                                                                    <span className="text-[10px] bg-muted text-muted-foreground px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Soon</span>
+                                                                )}
+                                                            </div>
+                                                            <p className="text-sm text-muted-foreground">{method.desc}</p>
                                                         </div>
                                                     </div>
-                                                    <method.icon className="w-6 h-6 text-primary" />
+                                                    <method.icon className={`w-8 h-8 transition-transform group-hover:scale-110 ${paymentMethod === method.id ? 'text-primary' : 'text-muted-foreground'}`} />
                                                 </Label>
                                             ))}
                                         </RadioGroup>
@@ -253,35 +321,44 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                 {step === 'confirming' && (
                                     <div className="h-full flex flex-col items-center justify-center text-center py-12">
                                         {isSubmitting ? (
-                                            <div className="space-y-4">
-                                                <div className="relative">
-                                                    <div className="w-24 h-24 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto" />
-                                                    <Loader2 className="w-10 h-10 text-primary absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+                                            <div className="space-y-6">
+                                                <div className="relative flex justify-center">
+                                                    <motion.div
+                                                        animate={{ rotate: 360 }}
+                                                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                                        className="w-32 h-32 border-[6px] border-primary/10 border-t-primary rounded-full"
+                                                    />
+                                                    <ShoppingBag className="w-12 h-12 text-primary absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-bounce-slow" />
                                                 </div>
-                                                <h3 className="text-2xl font-bold">Placing Your Order...</h3>
-                                                <p className="text-muted-foreground">Hold tight, {formData.firstName}, your delicious meal is just a few steps away!</p>
+                                                <div className="space-y-2">
+                                                    <h3 className="text-3xl font-bold tracking-tight">Placing Order...</h3>
+                                                    <p className="text-muted-foreground text-lg">Hang tight, {formData.firstName}! Our chefs are ready.</p>
+                                                </div>
                                             </div>
                                         ) : (
                                             <motion.div
                                                 initial={{ opacity: 0, scale: 0.9 }}
                                                 animate={{ opacity: 1, scale: 1 }}
-                                                className="space-y-6"
+                                                className="space-y-8"
                                             >
-                                                <div className="w-24 h-24 bg-success/20 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-success/10">
-                                                    <Check className="w-12 h-12 text-success" />
+                                                <div className="w-28 h-28 bg-success/20 rounded-[2.5rem] flex items-center justify-center mx-auto shadow-2xl shadow-success/20 border-4 border-background">
+                                                    <Check className="w-14 h-14 text-success" />
                                                 </div>
-                                                <div>
-                                                    <h3 className="text-3xl font-bold mb-2">Order Confirmed!</h3>
-                                                    <p className="text-muted-foreground max-w-md mx-auto">
-                                                        Thank you {formData.firstName}! your order #BG-{Math.floor(1000 + Math.random() * 9000)} has been received and is being prepared for delivery to {formData.address}.
-                                                    </p>
+                                                <div className="space-y-3">
+                                                    <h3 className="text-4xl font-heading font-black mb-2">Bon Appétit!</h3>
+                                                    <div className="bg-muted/30 p-6 rounded-[2rem] border border-border/50 max-w-md mx-auto">
+                                                        <p className="text-muted-foreground text-lg leading-relaxed">
+                                                            Order <span className="text-foreground font-black">#BG-{Math.floor(1000 + Math.random() * 9000)}</span> is confirmed!
+                                                            We'll bring your meal to <span className="text-foreground font-bold">{formData.address}</span> shortly.
+                                                        </p>
+                                                    </div>
                                                 </div>
                                                 <Button
-                                                    className="h-14 px-8 rounded-2xl shadow-glow gap-2 text-lg"
+                                                    className="h-16 px-10 rounded-[2rem] shadow-glow hover:shadow-hero transition-all duration-300 gap-3 text-xl font-bold"
                                                     onClick={handleClose}
                                                 >
                                                     Track Your Order
-                                                    <ArrowRight className="w-5 h-5" />
+                                                    <ArrowRight className="w-6 h-6" />
                                                 </Button>
                                             </motion.div>
                                         )}
@@ -291,37 +368,37 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
                             {/* Footer */}
                             {step !== 'confirming' && (
-                                <div className="p-6 md:p-8 border-t border-border bg-muted/10 backdrop-blur-sm">
-                                    <div className="md:hidden flex justify-between items-center mb-6">
-                                        <span className="text-muted-foreground">Order Total (Incl. Delivery)</span>
-                                        <span className="text-2xl font-bold text-primary">Rs {total.toLocaleString()}</span>
+                                <div className="p-6 md:p-10 border-t border-border/50 bg-background/80 backdrop-blur-xl sticky bottom-0 z-30">
+                                    <div className="md:hidden flex flex-col gap-2 mb-8 p-6 bg-muted/30 rounded-[2rem] border border-border/50">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-muted-foreground font-medium">Order Total</span>
+                                            <span className="text-2xl font-black text-primary">Rs {total.toLocaleString()}</span>
+                                        </div>
                                     </div>
 
-                                    <div className="flex gap-4 max-w-lg mx-auto">
+                                    <div className="flex gap-5 max-w-xl mx-auto items-center">
                                         {step === 'payment' && (
-                                            <Button
-                                                variant="outline"
-                                                className="flex-1 h-14 rounded-2xl text-lg"
+                                            <button
+                                                className="h-16 w-16 rounded-[2rem] bg-muted/50 hover:bg-muted flex items-center justify-center transition-all group shrink-0 active:scale-90"
                                                 onClick={() => setStep('details')}
                                                 disabled={isSubmitting}
                                             >
-                                                Back
-                                            </Button>
+                                                <ChevronLeft className="w-7 h-7" />
+                                            </button>
                                         )}
                                         <Button
-                                            className="flex-[2] h-14 gap-2 text-lg shadow-glow rounded-2xl"
+                                            className="flex-1 h-16 gap-3 text-xl font-bold shadow-glow rounded-[2rem] transition-all hover:scale-[1.02] active:scale-[0.98]"
                                             onClick={step === 'details' ? () => document.getElementById('checkout-details')?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) : handlePlaceOrder}
                                             disabled={isSubmitting}
                                         >
                                             {step === 'details' ? (
                                                 <>
-                                                    Continue to Payment
-                                                    <ArrowRight className="w-5 h-5" />
+                                                    Next: Payment
+                                                    <ArrowRight className="w-6 h-6" />
                                                 </>
                                             ) : (
                                                 <>
-                                                    Place Order • Rs {total.toLocaleString()}
-                                                    <Check className="w-5 h-5" />
+                                                    Complete Order • Rs {total.toLocaleString()}
                                                 </>
                                             )}
                                         </Button>
