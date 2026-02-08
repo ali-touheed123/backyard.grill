@@ -104,8 +104,9 @@ export const BurgerExplosion = () => {
             const canvasHeight = canvas.height;
 
             // "COVER" scaling logic with extra vertical zoom to crop "blackish" bars
-            // Adjusted zoom from 1.4 down to 1.1 to ensure the burger isn't cut off
-            const verticalZoom = 1.1;
+            // Reducing zoom from 1.1 strictly to 0.85 to ensure the burger buns 
+            // have breathing room and don't get cut off during explosion.
+            const verticalZoom = 0.85;
             const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height) * verticalZoom;
 
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
@@ -151,10 +152,10 @@ export const BurgerExplosion = () => {
         <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-20vh]">
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
                 {/* 
-                    Constrain the inner container to make the burger appear "small" 
-                    as requested, while maintaining the background-stick feel.
+                    Increasing height to 70vh and reducing inner zoom to 0.85
+                    Ensures buns are fully visible during the explosion.
                 */}
-                <div className="relative w-full max-w-xl md:max-w-2xl h-[50vh] md:h-[60vh] flex items-center justify-center">
+                <div className="relative w-full max-w-xl md:max-w-2xl h-[60vh] md:h-[70vh] flex items-center justify-center">
                     {!isLoading ? (
                         <motion.canvas
                             initial={{ opacity: 0 }}
