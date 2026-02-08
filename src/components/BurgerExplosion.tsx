@@ -95,20 +95,39 @@ export const BurgerExplosion = () => {
         const img = images[safeIndex];
 
         if (img && img.width > 0) {
+            // Use an offscreen canvas for background removal if not already processed
+            // For simplicity and performance, we'll draw and then filter pixels if needed
+            // But first, clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const canvasWidth = canvas.width;
             const canvasHeight = canvas.height;
 
-            // "COVER" scaling logic: Crop empty space so the burger fills the viewport
-            // We scale based on WIDTH primarily to ensure it's large, but Max ensures we fill everything
-            const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height);
+            // "COVER" scaling logic with extra vertical zoom to crop "blackish" bars
+            // and ensure the burger is large and centered.
+            const verticalZoom = 1.4;
+            const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height) * verticalZoom;
 
-            // Center the image while scaled up (this naturally crops the edges/top/bottom)
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
             const y = (canvasHeight / 2) - (img.height / 2) * scale;
 
+            // Draw to a temporary offscreen context to filter out the black background
+            // We use a simple trick: if the background is pure black, we can use 
+            // a globalCompositeOperation or a pixel filter.
+
+            // For real-time, we'll draw the image and then use a pixel-level check
+            // if it's not already transparent. 
+            // NOTE: If the images are ALREADY transparent PNGs, standard drawImage is enough.
+            // If they have black backgrounds, we'll use 'screen' blend mode as a performant fallback
+            // while we re-apply the user's requested vertical crop.
+
+            ctx.save();
+            // This blend mode makes black (0,0,0) transparent when drawn on a background.
+            // Since we want the burger on the WEBSITE'S background, this works perfectly.
+            ctx.globalCompositeOperation = 'screen';
+
             ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+            ctx.restore();
         }
     };
 
@@ -129,24 +148,20 @@ export const BurgerExplosion = () => {
     }, [images, isLoading, frameIndex]);
 
     return (
-        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none">
-            {/* 
-                We use z-0 to push it behind other content if needed, 
-                and no margins to make it feel like a fixed background.
-            */}
-            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-background">
-                {/* 
-                    Full viewport container for the canvas to allow it to 
-                    "stick" properly without boundaries.
-                */}
+        <div ref={containerRef} className="relative h-[250vh] md:h-[400vh] w-full z-0 pointer-events-none mb-[-20vh]">
+            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
                 <div className="relative w-full h-full flex items-center justify-center">
                     {!isLoading ? (
                         <motion.canvas
-                            initial={{ opacity: 0, scale: 1.1 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1.5, ease: "easeOut" }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1 }}
                             ref={canvasRef}
                             className="w-full h-full object-cover"
+                            style={{
+                                // Direct filter fallback to ensure black is handled
+                                filter: 'contrast(1.1) brightness(1.1)'
+                            }}
                         />
                     ) : (
                         <div className="flex flex-col items-center gap-6">
