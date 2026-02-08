@@ -41,6 +41,16 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
     const handleDetailsSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Manual verification for robustness
+        const { firstName, lastName, phone, address } = formData;
+        if (!firstName || !lastName || !phone || !address) {
+            toast.error('Information Missing', {
+                description: 'Please complete all required fields.',
+            });
+            return;
+        }
+
         setStep('payment');
     };
 
@@ -224,16 +234,16 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                                     <div className="space-y-2">
                                                         <Label htmlFor="firstName" className="text-sm font-bold ml-1">First Name</Label>
-                                                        <Input id="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="Ali" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                        <Input id="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="e.g. Ali" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
                                                     </div>
                                                     <div className="space-y-2">
                                                         <Label htmlFor="lastName" className="text-sm font-bold ml-1">Last Name</Label>
-                                                        <Input id="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Khan" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                        <Input id="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="e.g. Khan" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
                                                     </div>
                                                 </div>
                                                 <div className="space-y-2">
                                                     <Label htmlFor="phone" className="text-sm font-bold ml-1">Phone Number</Label>
-                                                    <Input id="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="+92 300 1234567" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                    <Input id="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="e.g. +92 300 1234567" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
                                                 </div>
                                             </div>
                                         </div>
@@ -249,7 +259,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                                             <div className="bg-muted/30 p-8 rounded-[2rem] border border-border/50 space-y-6">
                                                 <div className="space-y-2">
                                                     <Label htmlFor="address" className="text-sm font-bold ml-1">Full Address</Label>
-                                                    <Input id="address" value={formData.address} onChange={handleInputChange} placeholder="House #, Street, Block, Area" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
+                                                    <Input id="address" value={formData.address} onChange={handleInputChange} placeholder="e.g. House #, Street, Block, Area" className="h-14 bg-background border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 transition-all text-base" required />
                                                 </div>
                                                 <div className="space-y-2">
                                                     <Label htmlFor="notes" className="text-sm font-bold ml-1">Delivery Notes (Optional)</Label>
