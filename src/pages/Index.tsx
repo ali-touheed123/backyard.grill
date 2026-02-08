@@ -17,6 +17,7 @@ import { MobileNav } from '@/components/MobileNav';
 import { LiveOrderNotification } from '@/components/LiveOrderNotification';
 import { FloatingCTA } from '@/components/FloatingCTA';
 import { Footer } from '@/components/Footer';
+import { BurgerExplosion } from '@/components/BurgerExplosion';
 import { useCartStore } from '@/store/cartStore';
 import { categories, menuItems } from '@/data/mockData';
 import type { MenuItem } from '@/types/menu';
@@ -187,22 +188,27 @@ const Index = () => {
                   if (categoryItems.length === 0) return null;
 
                   return (
-                    <div key={category.id} id={`category-${category.id}`} className="mb-12 scroll-mt-24">
-                      <div className="flex items-center gap-3 mb-6">
-                        <span className="text-3xl">{category.icon}</span>
-                        <h3 className="font-heading text-2xl font-bold">{category.name}</h3>
+                    <div key={category.id}>
+                      <div id={`category-${category.id}`} className="mb-12 scroll-mt-24">
+                        <div className="flex items-center gap-3 mb-6">
+                          <span className="text-3xl">{category.icon}</span>
+                          <h3 className="font-heading text-2xl font-bold">{category.name}</h3>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+                          {categoryItems.map((item) => (
+                            <MenuItemCard
+                              key={item.id}
+                              item={item}
+                              onAddToCart={handleQuickAdd}
+                              onItemClick={handleItemClick}
+                            />
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-                        {categoryItems.map((item) => (
-                          <MenuItemCard
-                            key={item.id}
-                            item={item}
-                            onAddToCart={handleQuickAdd}
-                            onItemClick={handleItemClick}
-                          />
-                        ))}
-                      </div>
+                      {/* Burger Explosion Animation - Positioned between Beast Deals and Beef Burgers */}
+                      {category.id === 'beast-deals' && <BurgerExplosion />}
                     </div>
                   );
                 })}
